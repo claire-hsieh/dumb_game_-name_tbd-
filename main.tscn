@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://b161yjyhawlq4"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_o7x3d"]
+[ext_resource type="PackedScene" uid="uid://1jwg2tm4v7ga" path="res://mob.tscn" id="2_q6d63"]
+[ext_resource type="Texture2D" uid="uid://671oeoeqqtid" path="res://art/39ca3395344711.5e958b302d7e4.png" id="3_hmh44"]
+[ext_resource type="PackedScene" uid="uid://b72boaivr7sr4" path="res://player.tscn" id="3_msitw"]
+[ext_resource type="PackedScene" uid="uid://oicrfj0redud" path="res://canvas_layer.tscn" id="4_gnh16"]
+
+[sub_resource type="Curve2D" id="Curve2D_w51x5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1370.88, 747.755, 0, 0, 0, 0, 1350.99, -37.8103, 0, 0, 0, 0, 1365.58, 374.873, 0, 0, 0, 0, 1348.34, 749.849, 0, 0, 0, 0, 26, 709, 0, 0, 0, 0, 1096.34, -28.3835, 0, 0, 0, 0, 443.79, -17.9093, 0, 0, 0, 0, 3.45264, -29.431, 0, 0, 0, 0, 47.2211, 426.197)
+}
+point_count = 9
+
+[node name="Main" type="Node"]
+script = ExtResource("1_o7x3d")
+mob_scene = ExtResource("2_q6d63")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(516.5, 374.5)
+scale = Vector2(0.854167, 0.715238)
+texture = ExtResource("3_hmh44")
+
+[node name="Player" parent="." instance=ExtResource("3_msitw")]
+position = Vector2(521, 558)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(333, 332)
+
+[node name="MobPath" type="Path2D" parent="."]
+position = Vector2(-10, 32)
+scale = Vector2(0.753968, 0.954727)
+curve = SubResource("Curve2D_w51x5")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(1370.88, 747.755)
+rotation = -1.59611
+
+[node name="HUD" parent="." instance=ExtResource("4_gnh16")]
+
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]

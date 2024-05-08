@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://1jwg2tm4v7ga"]
+
+[ext_resource type="Script" path="res://mob.gd" id="1_5dlic"]
+[ext_resource type="Texture2D" uid="uid://ly7y41d4s7y8" path="res://art/enemyFlyingAlt_1.png" id="1_spo2e"]
+[ext_resource type="Texture2D" uid="uid://cqng678iynntx" path="res://art/enemyFlyingAlt_2.png" id="2_xihpv"]
+[ext_resource type="Texture2D" uid="uid://bagkoo8r8fo51" path="res://art/enemySwimming_1.png" id="3_onep2"]
+[ext_resource type="Texture2D" uid="uid://dlph6bjchkaov" path="res://art/enemySwimming_2.png" id="4_lv27f"]
+[ext_resource type="Texture2D" uid="uid://dkrv2m2lyx0cu" path="res://art/enemyWalking_1.png" id="5_xvjwh"]
+[ext_resource type="Texture2D" uid="uid://cgau4nabtkkim" path="res://art/enemyWalking_2.png" id="6_1yi7q"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8766f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_spo2e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_xihpv")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_onep2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lv27f")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_xvjwh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1yi7q")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t30rq"]
+radius = 54.0
+height = 108.0
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_5dlic")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_8766f")
+animation = &"swim"
+frame_progress = 0.718076
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_t30rq")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(-2, -4)
